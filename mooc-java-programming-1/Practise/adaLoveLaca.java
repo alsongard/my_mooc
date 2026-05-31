@@ -1,0 +1,4 @@
+package Practise;
+class adaLoveLaca {
+    
+}
