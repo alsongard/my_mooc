@@ -36,28 +36,7 @@ To run any solution locally:
    java ExerciseName
    ```
 
-### Structure
 
-```
-
-mooc-java-programming/
-├── part01/
-│   ├── exercise01/
-│   ├── exercise02/
-│   └── ...
-├── part02/
-├── part03/
-└── ...
-```
-
-### Progress
-
-> ✅ Part 1 – Basics  
-> ✅ Part 2 – Conditionals and loops  
-> 🔄 Part 3 – Arrays and lists (in progress)  
-> ⬜ Part 4 – Object-oriented programming (coming soon)
-
----
 
 ## 🧠 Notes
 
