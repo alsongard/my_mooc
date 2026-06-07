@@ -483,3 +483,313 @@ As list is reference type variable(it knows the reference point to the values in
 
 
 ## Arrays
+arrays are known as the ancestors of ArrayList: ``ArrayList<Integer> myList = new ArrayList<>();``  
+
+To use an array use the following syntax:
+```java
+int[] myNewArray = new int[5]
+```
+
+The above myNewArray has 5 values which can be accessed using indexing as follows:  
+```java
+myNewArray[0];
+```
+
+To add values into the array: 
+* Using the index to assign a value
+
+
+```java
+myNewArray[0] = 20;
+myNewArray[3] = 2;
+```
+
+One can also use a loop to iterate values within the array:  
+
+```java
+int i = 0;
+while (i < myNewArray.length) {
+    System.out.println(myNewArray[i]);
+    i++;
+}
+```
+
+
+You can create an array stating the type of the elements of the array followed by square brackets (typeofelements[]).
+``String[] myPlanets = new String[5];`` 
+
+Array is an object, so when you change the array inside the method, the changes persist after the execution of the method.
+
+
+**Initializing an array with a block**
+When you initialize an array with a block, the length of the array is precisely the number of the values specified in the block. The values of the block are assigned to the array in the order, eg. the first value is assigned to index 0, the second value to index 1 etc.
+```java
+String[] planets = {"Earth", "Uranus", "Saturn"};
+
+int a = 0; 
+while (a < planets.length) {
+    System.out.println("Planet" + planets[a]);
+    a++;
+}
+```
+
+
+
+## Using strings
+Learning Objectives
+- Revising reading, printing and comparing Strings
+- Knowing how to split a string into several pieces
+
+
+**Reading Input**  
+```java
+import java.util.Scanner;
+
+class StringIntroduction {
+    public static void main(String[] args) {
+        Scanner scanner  = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+    }
+}
+```
+
+**Outputing Strings**
+```java
+System.out.println("User is set to study");
+```
+
+**Equals() method for string comparisons**
+
+```java
+String myString = "hello world";
+if (myString.equals("hello")){
+    System.out.println("Not equals to string: hello");
+} else if (myString.contains("hello")) {
+    System.out.println("text contains string: hello");
+} else {
+    System.out.println("Did not found any string match!!");
+}
+```
+When comparing strings, you should make sure the string variable has some value assigned to it. If it doesn't have a value, the program will produce a NullPointerException error
+
+You can split a string to multiple pieces with the split-method of the String class. The method takes as a parameter a string denoting the place around which the string should be split. The split method returns an array of the resulting sub-parts. In the example below, the string has been split around a space.
+
+
+**Getting characters using charAt() method**
+get a character at a specified index of a string with the charAt method.
+
+```java
+String myText = "hello world";
+myText.charAt(myText.charAt(0));
+```
+
+**Length() string method**
+
+Returns the length of the string
+```java
+String myText = "hello world";
+myText.length();
+```
+
+
+# Part 4
+
+## Introduction to object-oriented programming
+
+
+**Learning Objectives**  
+- You're familiar with the concepts of class, object, constructor, object methods, and object variables.
+- You understand that a class defines an object's methods and that the values of instance (object) variables are object-specific.
+- You know how to create classes and objects, and know how to use objects in your programs.
+
+
+
+**Introduction**
+To define a class we use the following syntax:
+```
+modifier class nameOfClass {
+    // define the class/instance variables
+    // define the class methods
+}
+```
+
+The modifier can either be:
+- public
+- private
+- protected
+
+Followed by the ``class keyword`` and lastly open & closed curly braces ``{}``
+
+```java
+public class Person {
+    private String name; //  declare name property/variable for the class
+    private int age; // declare age property/variable for the class
+}
+```
+
+
+Defining a Constructor
+
+We want to set an initial state for an object that's created. Custom objects are created the same way as objects from pre-made Java classes, such as ArrayList, using the new keyword. It'd be convenient to pass values ​​to the variables of that object as it's being created. For example, when creating a new person object, it's useful to be able to provide it with a name:
+```java
+public static void main(String[] args) {
+    Person ada = new Person("Ada");
+    // ...
+}
+```
+
+This is achieved by defining the method that creates the object, i.e., its constructor. The constructor is defined after the instance variables. In the following example, a constructor is defined for the Person class, which can be used to create a new Person object. The constructor sets the age of the object being created to 0, and the string passed to the constructor as a parameter as its name:
+```java
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String initialName) {
+        this.age = 0;
+        this.name = initialName;
+    }
+}
+```
+The constructor's name is always the same as the class name. The class in the example above is named Person, so the constructor will also have to be named Person. The constructor is also provided, as a parameter, the name of the person object to be created. The parameter is enclosed in parentheses and follows the constructor's name. The parentheses that contain optional parameters are followed by curly brackets. In between these brackets is the source code that the program executes when the constructor is called (e.g., new Person ("Ada")).
+
+Objects are always created using a constructor.
+
+A few things to note: the constructor contains the expression this.age = 0. This expression sets the instance variable age of the newly created object (i.e., "this" object's age) to 0. The second expression this.name = initialName likewise assigns the string passed as a parameter to the instance variable name of the object created.
+
+
+
+**Default Constructor**  
+If the programmer does not define a constructor for a class, Java automatically creates a default one for it. A default constructor is a constructor that doesn't do anything apart from creating the object. The object's variables remain uninitialized (generally, the value of any object references will be null, meaning that they do not point to anything, and the values of primitives will be 0)
+
+For example, an object can be created from the class below by making the call new Person()
+```java
+public class Person {
+    private String name;
+    private int age;
+}
+```
+
+
+
+If a constructor has been defined for a class, no default constructor exists. For the class below, calling ``new Person() // with no arguments`` would cause an error, as Java cannot find a constructor in the class that has no parameters.
+```java
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String initialName) {
+        this.age = 0;
+        this.name = initialName;
+    }
+}
+```
+
+
+**Class Methods**  
+A method is written inside of the class beneath the constructor. The method name is preceded by public void, since the method is intended to be visible to the outside world (public), and it does not return a value (void).
+```java
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String initialName) {
+        this.age = 0;
+        this.name = initialName;
+    }
+
+    public void printPerson() {
+        System.out.println(this.name + ", age " + this.age + " years");
+    }
+}
+```
+
+**Objects and the Static Modifier**  
+We've used the modifier static in some of the methods that we've written. The static modifier indicates that the method in question does not belong to an object and thus cannot be used to access any variables that belong to objects.
+
+Going forward, our methods will not include the static keyword if they're used to process information about objects created from a given class. If a method receives as parameters all the variables whose values ​​it uses, it can have a static modifier.
+
+
+To access a class variables within  a  method we use the keyword: ``this``
+
+e.g
+```java
+public void PrintPerson() {
+    System.out.println("Name: " + this.name + "\n" + "Age: " + this.age);
+}
+```
+
+**Class Method with return values**
+```java 
+public int returnAge()  {
+    return this.age;
+}
+
+Person james = new Person("James");
+System.out.println("The age  of james " + james.returnedAge());
+```
+
+
+
+**A string representation of an object and the toString-method**  
+The string representation of an object can be defined by a method which returns a "string representation" of the object. The method returning the string representation is always set to: ``toString``.
+
+example: 
+```java
+public String toString() {
+    return "Name of person " + this.name + " and age is " + this.age;  
+}
+
+Person person = new Person("James" , 123)
+System.out.println(person);
+```
+
+The call to the toString method returning the string representation does not have to be written explicitly, as Java adds it automatically. When a programmer writes:
+```java
+System.out.println(antti);
+
+// Java extends the call at run time to the following form:
+
+System.out.println(antti.toString());
+```
+
+
+
+## Handling Objects in a List
+In previous sections you have learned how to add items/values to a list. E.g a String variable is also an object. We can use a list to store objects as shown:
+```java
+class Person {
+    private String name; 
+    private int age;
+
+    public Person(String userName) {
+        this.name = userName;
+        this.age = 0;
+    }
+
+    public String toString() {
+        return "Username:  "  + this.userName + "\n" + "Age: " + this.age;
+    }
+}
+```
+
+
+```java
+import java.util.ArrayList;
+
+class MainProgram  {
+    public void main(String args[]){
+        ArrayList<Person> persons = new ArrayList<>();
+        Person john = new Person("John");
+        persons.add(john);
+
+        Person matt = new Person("Matt");
+        persons.add(matt);
+
+        for (Person personItem : persons) {
+            System.out.println(personItem); 
+        }
+
+    }
+}
+```
+
