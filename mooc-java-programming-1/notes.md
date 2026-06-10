@@ -853,10 +853,9 @@ while (true) {
 
 ```
 # Part 5
-## 
 
+## Learning object-oriented programming
 
-## 
 **Constructor Overloading**
 
 The technique of having two (or more) constructors in a class is known as constructor overloading. A class can have multiple constructors that must differ in the number and/or type of their parameters. It's not, however, possible to have two constructors with the exact same parameters.
@@ -926,7 +925,7 @@ Class Person {
 ```
 
 
-## Primitive Reference Variables
+## Primitive & Reference Variables
 
 
 **Objectives**  
@@ -979,9 +978,10 @@ public class Person {
         return this.name + " (" + this.birthYear + ")";
     }
 }
-
+```
 We'll inspect the execution of the program step by step.
 
+```java
 public class Example {
     public static void main(String[] args) {
         Person first = new Person("First");
