@@ -1,0 +1,31 @@
+import java.util.ArrayList;
+
+public class MessagingService {
+    private ArrayList<Message> messageServiceList;
+
+
+    public MessagingService() {
+        this.messageServiceList = new ArrayList<>();
+    }
+
+    public void add(Message message) {
+        if (message.getContent().length() >= 281) {
+            return;
+        }
+        this.messageServiceList.add(message);
+    }
+
+    public ArrayList<Message> getMessages() {
+
+        return this.messageServiceList;
+    }
+
+    /*
+    
+
+    public void add(Message message) - adds a message passed as a parameter to the messaging service as long as the message content is at most 280 characters long.
+
+    public ArrayList<Message> getMessages() - returns the messages added to the messaging service.
+ */
+}
+
