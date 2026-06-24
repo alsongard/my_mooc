@@ -442,7 +442,7 @@ numberList.remove(Integer.valueOf(15)); // in this case the numberList has a val
 
 
 - String array
-in a stringg array you could either give the value or the index
+in a string array you could either give the value or the index
 ```java
 planetsArray.remove(0);
 
@@ -1088,3 +1088,243 @@ public class Counter{
 
 **Final**
 The word final used in the definition of object variables. The values of these object variables cannot be modified after they have been set in the constructor. 
+
+
+
+# Part 6
+The sixth part of the course material handles objects consisting of objects, and we'll take a look at separating the text user interface and the program logic.
+
+
+```java
+class PlayList()  {
+    private ArrayList<String> songs;
+
+
+    pulic PlayList() {
+        this.songs = new ArrayList<>(); // create songs variable of type ArrayList
+    }
+
+    public void adddSong(String songName) {
+        this.song.add(songName);
+    }
+
+    public void removeSong(String songName) {
+        if (this.song.contains(songName)) {
+            this.song.remove(sonName);
+        } esle {
+            System.out.println("No song");
+        }
+    }
+
+    public String toString() {
+        for (String songItem : this.song) {
+            System.out.println("Song name" + songItem); // this can be better using a class Song
+        }
+    }
+}
+```
+
+
+## Separating the user interface from program logic
+
+**Programming tips**  
+In the larger example above, we were following the advice given here.
+    Proceed with small steps
+        Try to separate the program into several sub-problems and work on only one sub-problem at a time
+        Always test that the program code is advancing in the right direction, in other words: test that the solution to the sub-problem is correct
+        Recognize the conditions that require the program to work differently. In the example above, we needed a different functionality to test whether a word had been already entered before.
+    Write as "clean" code as possible
+        Indent your code
+        Use descriptive method and variable names
+        Don't make your methods too long, not even the main method
+        Do only one thing inside one method
+        Remove all copy-paste code
+        Replace the "bad" and unclean parts of your code with clean code
+
+
+
+# Introduction To Testing
+
+**Learning Objectives**
+    Can tell about some issues caused by software bugs.
+    You know what a stack trace is, the steps taken in troubleshooting, and can give textual test inputs to a Scanner.
+    You know what unit testing is all about and you can write unit tests.
+    You know about test-driven software development.
+
+## Identifying Errors
+**Stack Trace****
+When an error occurs in a program, the program typically prints something called a stack trace, i.e., the list of method calls that resulted in the error. For example, a stack trace might look like this:
+Sample output
+```
+  Exception in thread "main" ...
+      at Program.main(Program.java:15)
+```
+
+The type of error is stated at the beginning of the list, and the following line tells us where the error occurred. The line "at Program.main(Program.java:15)" says that the error occurred at line number 15 in the Program.java file.
+
+Sample output
+```
+  at Program.main(Program.java:15)
+```
+
+
+
+### Checklist for Troubleshooting
+If your code doesn't work and you don't know where the error is, these steps will help you get started.
+    - Indent your code properly and find out if there are any missing parentheses.
+    - Verify that the variables used are correctly named.
+    - Test the program flow with different inputs and find out the sort of input that causes the program to not work as desired. - If you received an error in the tests, the tests may also indicate the input used.
+    - Add print commands to the program in which you print out the values of the variables used at various stages of the program's execution.
+    - Verify that all variables you are using are initialized. If they aren't, a NullPointerException error will occur.
+    - If your program causes an exception, you should definitely pay attention to the stack trace associated with the exception, which is the list of method calls that resulted in the situation that caused the exception.
+    - Learn how to use the debugger. The earlier video will get you started.
+
+
+### Passing Test Input to Scanner
+One can pass strings to a Scanner object , in which this strings are the input that the user might enter. This procedure is one way of automating testing. 
+
+Example:
+```java
+import java.util.ArrayList;
+
+String input = "one\n" + "two\n" + "three\n" + "four\n" + "five\n" + "one\n" + "six\n";
+
+Scanner scanner = new Scanner(input);
+ArrayList stringArray = new ArrayList<>();
+
+while (true) {
+    System.out.println("Enter string");
+    String userInput = scanner.nextLine();
+
+    if (stringArray.contains(userInput)) {
+        break;
+    }
+    stringArray.add(userInput);
+}
+```
+
+
+The input variable simulates how user input will be given to the Scanner object. After performing automatic testing on this, later you could change the input to System.in to get input from the system for manual testing. 
+
+
+
+
+# Part 7 
+
+
+## Different types of programming paradigm
+
+
+- Functional programming
+- Object Oriented Programming
+
+
+
+## Algorithms
+Algorithms, precise instructions on how to to accomplish a specific task, are at the core of computer science. In the context of programming, algorithms are typically defined using source code.
+
+The concept of efficiency is often associated with algorithms. A programs efficiency, i.e, the computation of required information fast enough, is an integral part of a programs usability. If it took two days for an algorithm designed for forecasting tomorrows weather run, the results wouldn't be very useful! Similarly, a user viewing a TVs program guide won't get any use out of it, if the tv-shows info only loads after the show already ended.
+
+In a more general sense, retrieving and displaying information quickly is an integral part of any applications function. Next let's explore algorithms associated with retrieving and sorting information. While the following examples utilize arrays, the algorithms shown will also work with other data-structures meant for storing information, such as lists.
+
+
+### Static or not
+Methods in Java can be divided into two groups, based on whether they have the static modifier or not. Methods without the static modifier are instance methods. Methods with the static modifier are class methods
+
+Instance methods are methods that are associated with an object, can process the objects variables and can call the object's other methods. Instance methods specifically CAN use the this modifier, which refers to the variables associated with the specific object, that is calling the instance method. Class methods can't use the this modifier, meaning that they can only access the variables they are given as parameters or that they create themselves.
+
+In reality class methods can also access class variable, among other things. However, these things are outside the scope of this course.
+
+
+
+**Built in sorting algorithms**
+
+
+1. Array
+In arrays which have a predefined length and no remove or add methods :
+```java
+import java.util.Arrays;
+
+int[] numbers = {8, 3, 7, 9, 1, 2, 4};
+Arrays.sort(numbers)
+```
+
+
+2. List and ArrayList
+ArrayList is an extension of List class and both support add and remove methods
+
+```java
+ArrayList<Integer> numbers = new ArrayList<>();
+numbers.add(8);
+numbers.add(3);
+numbers.add(7);
+System.out.println(numbers);
+Collections.sort(numbers);
+System.out.println(numbers);
+```
+
+
+
+Java's built-in sorting algorithms work with value type variables and some of Java's built-in reference type variables, like String. In order for our own classes to be sorted, we need to provide Java with some tips on how to do that, because the classes themselves don't contain information on how objects created from them should be ordered. We'll get back to ordering objects created from classes we made ourselves in the advanced course in programming.
+
+
+**Linear Search**
+In linear search, when we have an array and some value we need to search in the given array, using linear search will involve iteration over each value in the array, comparing it with the searched value and if found it is returned if not found it returns -1. 
+So in the case, we have 10 million values this and multiple comparison we need to check each of the values. This can be less efficient.
+
+
+**Binary Search**  
+using Binary search, the array has to be sorted, after which we split the array into a half, and then check if the searched value is; 
+
+- smaller than middle value: we search the left of the middle value. (in the right we also split the array by using the middle value, check if the value is smaller and reapply the same concept)
+- greater than middle value: we search the right of the middle value. (in the left we also split the array by using the middle value, check if the value is smaller and reapply the same concept)
+
+
+
+index
+| 0 | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 | 11 | 12 | 13 | 14 | 15 | 
+value
+| -22 | -9  | -3  | 0  | 1  | 5  | 7  | 9  | 11  | 16  | 22  | 31  | 44  | 45  | 62  | 71 |
+
+
+Search value 44:
+
+**Idea of binary search**  
+● Data is searched in an ordered array or list.
+● Search begins in the middle. 
+● The the value of the examined middle point is not the value that is searched 
+for, we exclude half of the previous search are and move to examine the 
+middle point of the remaining area.
+● If the examined middle value is the value that is searched for, we return the 
+index of that middle point.
+● If the search area does not exist anymore (every index has been excluded 
+from the list of possinilities), the value of -1 is returned. It indicates that the 
+value in question cannot be found.
+
+
+```
+Question let's say our book array is:
+```pseudocode
+books= [Book(0, "Art of War"), Book(1, "The Bible"), Book(2, "Devil May Cry), Book(3, "Shingeki no Kyojin"), Book(4, "Avengers")]
+
+number of books input is 5
+searchId = 4
+1rst iteration: 
+begin = 0 end = books.size() - 1;   
+middle  = (begin + end )/2 == 0 + 4 = 4 /2  = 2
+if (books.get(2).getId() == searchId ) false
+else if(book.get(2).getId() < searchId) true ; begin = middle + 1;
+else if (searchId < book.get(2).getId()) false
+
+2nd iteration:
+begin = 2 + 1 = 3; end = 4;
+middle  = (begin + end )/2 == 3 + 4 =  7/2  = 3
+if (books.get(3).getId() == searchId ) false
+else if(book.get(3).getId() < searchId) true ; begin = middle + 1;
+else if (searchId < book.get(2).getId()) false
+
+while begin < end
+begin = 3 + 1 = 4
+end = 4  
+4 < 4 false
+```
