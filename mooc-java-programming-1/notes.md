@@ -1328,3 +1328,75 @@ begin = 3 + 1 = 4
 end = 4  
 4 < 4 false
 ```
+
+# Part08
+## HashMaps
+A hashmap is a data structure that uses key value pair to store data.
+
+Syntax:
+```java
+HashMap<Integer, String> myFruits = new HashMap<>();
+myFruits.put("Apple", 3);
+myFruits.put("Melon", 3);
+myFruits.put("Orange", 3);
+``` 
+
+
+If an existing key already exist on a HashMap(), the new value is assigned to that key.  
+```java
+myFruits.put("Orange", 3);
+myFruits.put("Orange", 3);
+```
+
+**Using reference type variable as a value  for hashmap:**
+```java
+import java.util.HashMap;
+
+Class Book {
+    private String bookTitle;
+    private int publishYear;
+
+    // default constructor
+    public Book(String bookName, int year) {
+        this.bookTitle = bookName;
+        this.puslishYear = year;   
+    }
+
+    public void getBookTitle() {
+        return this.bookTitle;
+    }
+}
+
+Book prideAndPrejuduice = new Book("Pride and Prejuduice", 2020);;
+
+HashMap<String, Book> library = new HashMap<>();
+library.put(prideAndPrejuduice.getBookTitle(), prideAndPrejuduice);
+```
+
+**Accessing keys of a hashmap**  
+We can use the ``keySet()`` method provided HashMap class that returns a set of the keys.
+
+```java
+for (String key: hashMap.keySet()) {
+    System.out.println(key);
+}
+```
+
+A hashmap always expect that only reference type variables are added to it.
+e.g 
+```java
+HashMap<String, Integer> myHash = new HashMap();
+```
+
+Java converts primitive variables to reference-types automatically as they are added to either a HashMap or an ArrayList. This automatic conversion to a reference-type variable is termed auto-boxing in Java, i.e. putting something in a box automatically. The automatic conversion is also possible in the other direction.
+
+```java
+int key = 2;
+HashMap<Integer, Integer> hashmap = new HashMap<>();
+hashmap.put(key, 10);
+int value = hashmap.get(key);
+System.out.println(value);
+```
+
+The getOrDefault method of the HashMap searches for the key passed to it as a parameter from the HashMap. If the key is not found, it returns the value of the second parameter passed to it. The one-liner shown above is equivalent in its function to the following.
+
