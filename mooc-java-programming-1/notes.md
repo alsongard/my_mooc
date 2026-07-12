@@ -1385,7 +1385,7 @@ for (String key: hashMap.keySet()) {
 A hashmap always expect that only reference type variables are added to it.
 e.g 
 ```java
-HashMap<String, Integer> myHash = new HashMap();
+HashMap<String, Integer> myHash = new HashMap<>();
 ```
 
 Java converts primitive variables to reference-types automatically as they are added to either a HashMap or an ArrayList. This automatic conversion to a reference-type variable is termed auto-boxing in Java, i.e. putting something in a box automatically. The automatic conversion is also possible in the other direction.
@@ -1399,4 +1399,311 @@ System.out.println(value);
 ```
 
 The getOrDefault method of the HashMap searches for the key passed to it as a parameter from the HashMap. If the key is not found, it returns the value of the second parameter passed to it. The one-liner shown above is equivalent in its function to the following.
+```java
+public class IOU {
+    private HashMap<String, Double> iou;
+    
 
+    // constructor
+    public IOU() {
+        this.iou = new HashMap<>();
+    }
+
+    public void setSum(String toWhom, double amount) {
+        this.iou.put(toWhom, amount);
+    }
+
+    public double howMuchDoIOweTo(String toWhom) {
+        return this.iou.getOrDefault(toWhom, 0.0);
+    }
+}
+```
+
+
+- equals() method
+Why we override it when comparing objects(classes) in ArrayList
+To avoid 
+
+
+
+- hashCode() method
+Why we override it when comparing values in HashMap
+
+
+
+**Adding multiple values to the value part of HashMap**  
+achieved using ArrayList
+
+
+
+
+# Part09
+
+**Objectives**   
+1. Class Inheritance
+2. Interfaces
+3. Object polymorphism
+4. Summary
+
+
+
+## Class Inheritance
+
+**Objectives**  
+You know that in the Java programming language every class inherits the Object class, and you understand why every object has methods toString, equals, and hashCode.
+You are familiar with the concepts of inheritance, superclass, and subclass.
+You can create classes that inherit some of their properties from another class.
+You can call a constructor or method that is defined in a superclass.
+You know how an object's executed method is determined, and you are familiar with the concept of polymorphism.
+You can assess when to use inheritance, and you can come up with an example that is ill-suited for inheritance.
+
+
+**Inheritance**
+Each class can directly extend only one class. However, a class indirectly inherits all the properties of the classes it extends. So the ArrayList class derives from the class AbstractList, and indirectly derives from the classes AbstractCollection and Object. So ArrayList has at its disposal all the variables and methods of the classes AbstractList, AbstractCollection, and Object.
+
+Example:
+```java
+public class Engine extends Part {
+        private String engineType;
+
+
+        // default constructor
+        public Engine (String engineType, String identifier, String manufacturer, String description) {
+                super(identifier, manufacturer, description);// this calls Part() custom constructor
+                this.engineType = engineType;
+        }
+
+
+        public String getEngineType() {
+                return this.engineType;
+        }
+
+}
+class Main {
+
+        public static void main(String[] args) {
+                Engine engine = new Engine("combustion", "hz", "volkswagen", "VW GOLF 1L 86-91");
+                System.out.println(engine.getEngineType());
+                System.out.println(engine.getManufacturer());
+
+        }
+}
+public class Part {
+
+        private String manufacture;
+        private String description;
+        private String identifier;
+
+        // Constructor
+        public Part(String identifier, String manufacturer, String description) {
+                this.manufacture = manufacturer;
+                this.description = description;
+                this.identifier = identifier;
+        }
+
+
+        public String getIdentifier() {
+                return this.identifier;
+        }
+
+        public String getManufacturer() {
+                return this.manufacture;
+        }
+
+        public String getDescription() {
+                return this.description;
+        }
+}
+
+```
+
+
+One must always call the superclass constructor in the subclass constructor
+IN the example below we have superclass with 2 distinct constructors(one with parameter, no parameters). 
+Previoulsy if we had multiple constructors , we can call another constructor using ``this`` keyword. 
+
+
+
+An object type determined what methods can be called. In the example below Student inherits from Person and methods toString is only available from the Perosn superclass.
+```java
+Person ollie = new Student("Ollie", "Jupiter Address 102");
+ollie.study(); // throw an error as ollie is of type Person with Person methods oly
+System.out.println(ollie); // calls toString() for Student : object type
+```
+
+
+The variable type determines which methods you are allowed to call (visibility/access), but the object type determines how those methods behave.
+
+Regardless of the type of the variable, the method that is executed is always chosen based on the actual type of the object. Objects are polymorphic, which means that they can be used via many different variable types. The executed method always relates to the actual type of the object. This phenomenon is called polymorphism.
+
+**When is inheritance worth using?**
+
+Inheritance is a tool for building and specializing hierarchies of concepts; a subclass is always a special case of the superclass. If the class to be created is a special case of an existing class, this new class could be created by extending the existing class. For example, in the previously discussed car part scenario an engine is a part, but an engine has extra functionality that not all parts have.
+
+When inheriting, the subclass receives the functionality of the superclass. If the subclass doesn't need or use some of the inherited functionality, inheritance is not justifiable. Classes that inherit will inherit all the methods and interfaces from the superclass, so the subclass can be used in place of the superclass wherever the superclass is used. It's a good idea to keep the inheritance hierarchy shallow, since maintaining and further developing the hierarchy becomes more difficult as it grows larger. Generally speaking, if your inheritance hierarchy is more than 2 or 3 levels deep, the structure of the program could probably be improved.
+
+Inheritance is not useful in every scenario. For instance, extending the class Car with the class Part (or Engine) would be incorrect. A car includes an engine and parts, but an engine or a part is not a car. More generally, if an object owns or is composed of other objects, inheritance should not be used.
+
+**Access Modifiers**  
+If a method or variable has the access modifier ``private``, it is visible only to the internal methods of that class. Subclasses will not see it, and a subclass has no direct means to access it. So, from the Engine class there is no way to directly access the variables identifier, manufacturer, and description, which are defined in the superclass Part. The programmer cannot access the variables of the superclass that have been defined with the access modifier private.
+
+A subclass sees everything that is defined with the ``public`` modifier in the superclass. If we want to define some variables or methods that are visible to the subclasses but invisible to everything else, we can use the access modifier ``protected`` to achieve this.
+
+
+**hashCode**  
+
+**Abstract Classes**
+differences between inheriting from a concrete (normal) class and an abstract class are:
+
+
+In an abstract class, at any time we define a method: ``accessModifier abstract returnType functionName`` e.g: ``public abstract void execute `` it states that any subclass must have the execute method, however the abstract class itself does not know it's functionalities. 
+
+| Feature	| Concrete (Normal) | Class	Abstract Class |
+| ---- | ---- | ---- |
+| Can you create an object with new?   |	✅ Yes, e.g., new Operation("name")  |  ❌ No. You cannot instantiate an abstract class. |
+| Can it have normal methods?	|  Yes | ✅ Yes (like getName()). |
+| Can it have abstract methods?	| ❌ No |	✅ Yes (like execute()). |
+| What happens if a subclass does NOT override an abstract method?	| N/A (no abstract methods) |	❌ Compilation error. The subclass  must provide a body for all inherited abstract methods (unless the subclass is also abstract).
+
+Example of Abstraction:
+
+
+UserInterface.java
+```java
+import java.util.Scanner;
+import java.util.ArrayList;
+public class UserInterface {
+
+    private Scanner scanner;
+    private ArrayList<Operation> operations;
+
+    public UserInterface(Scanner scanner) {
+        this.scanner = scanner;
+        this.operations = new ArrayList<>();
+    }
+
+    public void addOperation(Operation operation) {
+        this.operations.add(operation);
+    }
+
+    public void start() {
+        while (true) {
+            printOperations();
+            System.out.println("Choice: ");
+
+            String choice = this.scanner.nextLine();
+            if (choice.equals("0")) {
+                break;
+            }
+
+            executeOperation(choice);
+            System.out.println();
+        }
+    }
+
+    private void printOperations() {
+        System.out.println("\t0: Stop");
+        int i = 0;
+        while (i < this.operations.size()) {
+            String operationName = this.operations.get(i).getName();
+            System.out.println("\t" + (i + 1) + ": " + operationName);
+            i = i + 1;
+        }
+    }
+
+    private void executeOperation(String choice) {
+        int operation = Integer.valueOf(choice);
+
+        Operation chosen = this.operations.get(operation - 1);
+        chosen.execute(scanner);
+    }
+}
+```
+
+Operation.java
+```java
+public abstract class Operation {
+
+    private String name;
+
+    public Operation(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public abstract void execute(Scanner scanner);
+}
+  
+```
+
+PlusOperation.java
+```java
+import java.util.Scanner;
+public class PlusOperation extends Operation {
+
+    public PlusOperation() {
+        super("PlusOperation");
+    }
+
+    @Override
+    public void execute(Scanner scanner) {
+        System.out.print("First number: ");
+        int first = Integer.valueOf(scanner.nextLine());
+        System.out.print("Second number: ");
+        int second = Integer.valueOf(scanner.nextLine());
+
+        System.out.println("The sum of the numbers is " + (first + second));
+    }
+
+}
+
+```
+
+## Intefaces
+interfaces are used to define behavior that's required from a class, i.e., its methods. They're defined the same way that regular Java classes are, but ``public interface InterfaceName {}`` is used instead of ``public class ... `` at the beginning of the class. Interfaces define behavior through method names and their return values. However, they don't always include the actual implementations of the methods. A visibility attribute on interfaces is not marked explicitly as they're always public.
+
+```java
+public interface Readable {
+    String read();
+}
+```
+The Readable interface declares a ``read()`` method, which returns a String-type object. ``Readable`` defines certain behavior: for example, a text message or an email may be readable.
+
+The classes that implement the interface decide how the methods defined in the interface are implemented. A class implements the interface by adding the keyword ``implements`` after the class name followed by the name of the interface being implemented. 
+
+```java
+public class TextMessage implements Readable {
+    private String sender;
+    private String content;
+
+    // Constuctor
+    public TextMessage(String sender, String content) {
+        this.sender = sender;
+        this.content = content;
+    }
+
+    public String getSender() {
+        return this.sender;
+    }
+
+    public String read() {
+        return this.content;
+    }
+}
+```
+
+Inteferace des not decide how the methods of the Implmeneting class run/execute/structure, it only checks the behavior of the method
+
+In the example below we have:
+```java
+publc interface class 
+```
+
+
+```java
+public class EBook() {
+
+}
