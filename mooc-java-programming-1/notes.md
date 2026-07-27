@@ -1707,3 +1707,448 @@ publc interface class
 public class EBook() {
 
 }
+```
+
+**Interface as a Variable Type**
+When declaring a variable, the type of the Variable is stated. We have covered 2 main types of variable namely:
+- primitive type variables
+- reference type variables
+
+When we implement an interface to a class, we can assign the interface as the type to the instance/object of that class.
+
+**My understanding**: At any time we implement an interface to a class, the methods belonging to that interface must be run/included in the class methods, otherwise u get an error.  
+e.g
+```java
+import java.util.ArrayList;
+
+public interface Readable {
+    String read();
+}
+
+
+public class Ebook implements Readable {
+    private String bookTitle; 
+    private ArrayList<String> pages;
+
+    public Ebook(String bookName) {
+        this.bookTitle = bookName;
+        this.pages = new ArrayList<>();
+    }
+
+    public String read(){
+        for (String pageItem: this.pages) {
+            return pageItem;
+        }
+    }
+    public void addPages(ArrayList pages) {
+        for (String pageItem: pages) {
+            this.pages.add(pageItem);
+        }
+    }
+    public int bookPages() {
+        return this.pages.size();
+    }
+}
+
+Readable myBook = new Ebook("Art of War");
+
+ArrayList<String> allPages = new ArrayList<>();
+
+allPages.add("Weapons are of illomen, only to be used as a last resort, Du Mu");
+allPages.add("One must know himself, and the enemy to win a battle, Du Mu");
+myBook.addPages(allPages);
+
+for (int i = 0 ; i < myBook.bookPages(); i++) {
+    System.out.println(myBook.read());
+}
+
+```
+
+
+Note that although the Ebook class that inherits the Readable interface class is always of the interface's type, not all classes that implement the Readable interface are of type Ebook. You can assign an object created from the Ebook class to a Readable-type variable, but it does not work the other way without a separate type conversion.
+```java
+Readable readable = new TextMessage("ope", "TextMessage is Readable!"); // works
+TextMessage message = readable; // doesn't work
+
+TextMessage castMessage = (TextMessage) readable; // works if, and only if, readable is of text message type
+```
+
+Type conversion succeeds if, and only if, the variable is of the type that it's being converted to. Type conversion is not considered good practice, and one of the few situation where it's use is appropriate is in the implementation of the equals method.
+
+
+
+**interface as return type**
+
+
+**Built in interfaces**
+- List
+- Map
+- Set 
+- Collection
+
+**List Interface**  
+
+The List interface defines the basic functionality related to lists. Because the ArrayList class implements the List interface, one can also use it through the List interface.
+```java
+List<String> strings = new ArrayList<>();
+strings.add("string objects inside an arraylist object!");
+```
+
+As we can see fom the Java API of List, there are many classes that implement the List interface. One list that is familiar to computer scientists is a linked list. A linked list can be used through the List interface exactly the same way as an object created from ArrayList.
+```java
+List<String> strings = new LinkedList<>();
+strings.add("string objects inside a linkedlist object!");
+```
+
+From the perspective of the user, both implementations of the List interface work the same way. The interface abstracts their inner functionality. The internal structures of ArrayList and LinkedList differ quite a bit. ArrayList saves objects to an array where fetching an object with a specific index is very fast. On the other hand LinkedList constructs a list where each element contains a reference to the next element in the list. When one searches for an object by index in a linked list, one has to go though the list from the beginning until the index.
+
+One can see noticeable performance differences between list implementations if the lists are big enough. The strength of a linked list is that adding to it is always fast. ArrayList, on the other hand, is backed by an array, which needs to be resized each time it gets full. Resizing the array requires creating a new array and copying the values from the old array to the new one. On the other hand, searching objects by index is much faster in an array list compared to a linked list.
+
+For the problems that you encounter during this course you should almost always choose ArrayList. However, "interface programming" is beneficial: implement your programs so that you'll use the data structures through the interfaces.
+
+
+**The Map Interface**  
+The Map interface defines the basic behavior associated with hash tables. Because the HashMap class implements the Map interface, it can also be accessed through the Map interface.
+```java
+Map<String, String> maps = new HashMap<>();
+maps.put("ganbatte", "good luck");
+maps.put("hai", "yes");
+```
+The keys to the hash table are obtained using the keySet method.
+```java
+Map<String, String> maps = new HashMap<>();
+maps.put("ganbatte", "good luck");
+maps.put("hai", "yes");
+
+for (String key : maps.keySet()) {
+    System.out.println(key + ": " + maps.get(key));
+}
+
+// Sample output
+
+// ganbatte: good luck
+// hai: yes
+```
+The keySet method returns a set of elements that implement the Set interface. You can use a for-each statement to go through a set that implements the Set interface. The hash values can be obtained from the hash table using the values method. The values method returns a set of elements that implement the Collection interface. Let's take a quick look at the Set and Collection interfaces.
+
+
+
+**The Set Interface**  
+
+The Set interface describes functionality related to sets. In Java, sets always contain either 0 or 1 amounts of any given object. As an example, the set interface is implemented by HashSet. Here's how to go through the elements of a set.
+
+```java
+Set<String> set = new HashSet<>();
+set.add("one");
+set.add("one");
+set.add("two");
+
+for (String element: set) {
+    System.out.println(element);
+}
+
+
+// Sample output
+// one
+// two
+```
+
+Note that HashSet in no way assumes the order of a set of elements. If objects created from custom classes are added to the HashSet object, they must have both the equals and hashCode methods defined.
+
+
+**The Collection Interface**  
+The Collection interface describes functionality related to collections. Among other things, lists and sets are categorized as collections in Java — both the List and Set interfaces implement the Collection interface. The Collection interface provides, for instance, methods for checking the existence of an item (the method contains) and determining the size of a collection (the method size).
+
+The Collection interface also determines how the collection is iterated over. Any class that implements the Collection interface, either directly or indirectly, inherits the functionality required for a for-each loop.
+
+Let's create a hash table and iterate over its keys and values.
+```java
+Map<String, String> translations = new HashMap<>();
+translations.put("ganbatte", "good luck");
+translations.put("hai", "yes");
+
+Set<String> keys = translations.keySet();
+Collection<String> keyCollection = keys;
+
+System.out.println("Keys:");
+for (String key: keyCollection) {
+    System.out.println(key);
+}
+
+System.out.println();
+System.out.println("Values:");
+Collection<String> values = translations.values();
+
+for (String value: values) {
+    System.out.println(value);
+}
+
+// Sample output
+// Keys:
+// ganbatte
+// hai
+// Values:
+// yes
+// good luck
+```
+
+In the next exercise, we build functionality related to e-commerce and practice using classes through their interfaces.
+
+
+
+## Object Polymorphism
+
+```java
+String text = "text";
+Object textString = "another string";
+
+String text = "text";
+Object textString = text;
+```
+In the above we have String object being assigned to Object type.  Any child class that inherits parent Class , it's instance can be assigned to the Parent class.
+
+
+```java
+Object textString = "another string";
+String text = textString; // WON'T WORK!
+```
+
+In addition to each variable's original type, each variable can also be represented by the types of interfaces it implements and classes that it inherits. The String class inherits the Object class and, as such, String objects are always of type Object. The Object class does not inherit a String class, so Object-type variables are not automatically of type String.
+
+In Java, each class can inherit one class at most. On the other hand, the inherited class may have inherited another class. As such, a class may indirectly inherit more than a single class.
+
+
+
+This also applies to interfaces that a class implements. In the example below we look into the interfaces that a class implements.
+
+Let's continue to look at the API description of the String class. The inheritance hierarchy in the description is followed by a list of interfaces implemented by the class.
+
+All Implemented Interfaces:
+Serializable, CharSequence, Comparable<String>
+
+The String class implements the Serializable, CharSequence, and Comparable <String> interfaces. An interface is also a type. According to the class' API description, the following interfaces can be set as the type of a String object.
+
+```java
+Serializable serializableString = "string";
+CharSequence charSequenceString = "string";
+Comparable<String> comparableString = "string";
+```
+
+
+
+# Part 10
+
+## Streams
+Stream are formed from any Class / Data type that implements the Collection interface using the stream() methods. Example of such Data Structures include: List, ArrayList, Set, Arrays
+
+
+Example:  
+```java
+// counting the number of values divisible by three
+long numbersDivisibleByThree = inputs.stream()
+    .mapToInt(s -> Integer.valueOf(s))
+    .filter(number -> number % 3 == 0)
+    .count();
+
+// working out the average
+double average = inputs.stream()
+    .mapToInt(s -> Integer.valueOf(s))
+    .average()
+    .getAsDouble();
+
+
+
+// counting the number of values divisible by three
+long numbersDivisibleByThree = inputs.stream()
+    .mapToInt(s -> Integer.valueOf(s))
+    .filter(number -> number % 3 == 0)
+    .count();
+```
+
+*A stream can be formed from any object that implements the Collection interface (e.g., ArrayList, HashSet, HashMap, ...) with the stream() method. The string values ​​are then converted ("mapped") to integer form using the stream's mapToInt(value -> conversion) method. The conversion is implemented by the valueOf method of the Integer class, which we've used in the past. We then use the filter (value -> filter condition) method to filter out only those numbers that are divisible by three for further processing. Finally, we call the stream's count() method, which counts the number of elements in the stream and returns it as a long type variable.*
+
+
+A brief summary of the stream methods we've encountered so far.
+| Purpose and method 	| Assumptions |
+| ---- | ---- |
+| Stream formation: stream()  |  The method is called on collection that implements the Collection interface, such as an ArrayList Object. Something is done on the created stream.|
+| Converting a stream into an integer stream: mapToInt(value -> another)  |	The stream transforms into one containing integers. A stream containing strings can be converted using, for instance, the valueOf method of the Integer class. Something is done with the stream containing integers. |
+| Filtering values: filter(value -> filter condition)  |  The elements that do not satisfy the filter condition are removed from the string. On the right side of the arrow is a statement that returns a boolean. If the boolean is true, the element is accepted into the stream. If the boolean evaluates to false, the value is not accepted into the stream. Something is done with the filtered values. |
+| Calculating the average: average()  |  Returns a OptionalDouble-type object that has a method getAsDouble() that returns a value of type double. Calling the method average() works on streams that contain integers - they can be created with the mapToInt method. |
+| Counting the number of elements in a stream: count() 	|  Returns the number of elements in a stream as a long-type value.  |
+
+
+
+## Lambda Expressions
+a lambda expression, is shorthand provided by Java for anonymous methods that do not have an "owner", i.e., they are not part of a class or an interface.
+
+Example of a lambda expression:
+```
+value -> value % 2 == 0
+```
+
+The function contains both the parameter definition and the function body. The same function can be written in several different ways. See below.
+```java
+// original
+*stream*.filter(value -> value > 5).*furtherAction*
+
+// is the same as
+*stream*.filter((Integer value) -> {
+    if (value > 5) {
+        return true;
+    }
+
+    return false;
+}).*furtherAction*
+
+```
+The same can be written explicitly so that a static method is defined in the program, which gets used within the function passed to the stream as a parameter.
+```java
+public class Screeners {
+    public static boolean greaterThanFive(int value) {
+        return value > 5;
+    }
+}
+
+// original
+*stream*.filter(value -> value > 5).*furtherAction*
+
+// is the same as
+*stream*.filter(value -> Screeners.greaterThanFive(value)).*furtherAction*
+```
+The function can also be passed directly as a parameter. The syntax found below ``Screeners::greaterThanFive`` is saying: "use the static greaterThanFive method that's in the Screeners class".
+
+// is the same as
+
+``*stream*.filter(Screeners::greaterThanFive).*furtherAction*``
+Lambda expression cannot change local instance variables, however they can read them.
+
+There are 2 types of Expressions functions:
+- Intermediate functions filter()
+- Terminal functions e.g average()
+
+
+![handling_images](images/handling_collections_as_streams.png)
+
+
+
+
+A new ArrayList list is created to which values ​​are added. This is can be done in a stream() using  ``.collect(Collectors.toCollection(ArrayList::new));``
+
+
+## Handling Collection as Streams
+
+Let's take a look at four terminal operations: the count method for counting the number of values on a list, the forEach method for going a through list values, the collect method for gathering the list values ​​into a data structure, and the reduce method for combining the list items.
+
+
+**Count Method**   s
+The count method informs us of the number of values in the stream as a long-type variable.
+```java
+List<Integer> values = new ArrayList<>();
+values.add(3);
+values.add(2);
+values.add(17);
+values.add(6);
+values.add(8);
+
+System.out.println("Values: " + values.stream().count());
+
+// Sample output
+
+// Values: 5
+
+```
+
+**ForEach Method**  
+
+The forEach method defines what is done to each list value and terminates the stream processing. In the example below, we first create a list of numbers, after which we only print the numbers that are divisible by two.
+```java
+List<Integer> values = new ArrayList<>();
+values.add(3);
+values.add(2);
+values.add(17);
+values.add(6);
+values.add(8);
+
+values.stream()
+    .filter(value -> value % 2 == 0)
+    .forEach(value -> System.out.println(value));
+```
+You can use the collect method to collect stream values into another collection. The example below creates a new list containing only positive values. The collect method is given as a parameter to the Collectors object to which the stream values ​​are collected - for example, calling Collectors.toCollection(ArrayList::new) creates a new ArrayList object that holds the collected values.
+```java
+List<Integer> values = new ArrayList<>();
+values.add(3);
+values.add(2);
+values.add(-17);
+values.add(-6);
+values.add(8);
+
+ArrayList<Integer> positives = values.stream()
+    .filter(value -> value > 0)
+    .collect(Collectors.toCollection(ArrayList::new));
+
+positives.stream()
+    .forEach(value -> System.out.println(value));
+
+// Sample output
+
+// 3
+// 2
+// 
+```
+
+
+
+**Reduce Method**  
+The reduce method is useful when you want to combine stream elements to some other value. 
+```java
+ArrayList<Integer> values = new ArrayList<>();
+values.add(7);
+values.add(3);
+values.add(2);
+values.add(1);
+
+int sum = values.stream()
+    .reduce(0, (previousSum, value) -> previousSum + value);
+System.out.println(sum);
+```
+
+My understanding: the previousSum is zero and for the first value it gets added to the sum and sum is updated by this value and the process is repeated for each value. 
+
+
+```java
+ArrayList<String> words = new ArrayList<>();
+words.add("First");
+words.add("Second");
+words.add("Third");
+words.add("Fourth");
+
+String combined = words.stream()
+    .reduce("", (previousString, word) -> previousString + word + "\n");
+System.out.println(combined);
+```
+
+
+
+**Intermediate Methods**
+Intermediate stream operations are methods that return a stream. Since the value returned is a stream, we can call intermediate operations sequentially. 
+
+- distinct-method, that returns a stream that only contains unique values.
+- sorted-method, returns the list in sorted manner
+
+
+
+## Files and Streams
+Streams are also very handy in handling files. The file is read in stream form using Java's ready-made Files class. The lines method in the files class allows you to create an input stream from a file, allowing you to process the rows one by one. The lines method gets a path as its parameter, which is created using the get method in the Paths class. The get method is provided a string describing the file path.
+
+```java
+List<String> rows = new ArrayList<>();
+
+try {
+    Files.lines(Paths.get("file.txt")).forEach(row -> rows.add(row));
+} catch (Exception e) {
+    System.out.println("Error: " + e.getMessage());
+}
+
+// do something with the read lines
+```
