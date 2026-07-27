@@ -50,3 +50,12 @@ This section introduces the student to inheritance between classes
 - Polymorphism
 - When and when not to use inheritance
 - Abstract classes and abstract methods
+
+
+> Part 10 - Streams, 
+- Stream methods , intermediate methods e.g map(), and terminal methods
+- Comparator class and its  methods ->  ``comparingThen()`` and ``compare()``
+- StringBuilder class and  it's methods -> ``append()`` and  ``toString()``
+- Classes and ArrayList
+- String , String split() methods
+- forEach method
