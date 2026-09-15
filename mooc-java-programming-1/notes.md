@@ -2139,7 +2139,7 @@ Intermediate stream operations are methods that return a stream. Since the value
 
 
 ## Files and Streams
-Streams are also very handy in handling files. The file is read in stream form using Java's ready-made Files class. The lines method in the files class allows you to create an input stream from a file, allowing you to process the rows one by one. The lines method gets a path as its parameter, which is created using the get method in the Paths class. The get method is provided a string describing the file path.
+Streams are also very handy in handling files. The file is read in stream form using Java's ready-made Files class. The lines method in the File class allows you to create an input stream from a file, allowing you to process the rows one by one. The lines method gets a path as its parameter, which is created using the get method in the Paths class. The get method is provided a string describing the file path.
 
 ```java
 List<String> rows = new ArrayList<>();
@@ -2152,3 +2152,585 @@ try {
 
 // do something with the read lines
 ```
+
+
+## The Comparable Interface
+In the previous sessions we have looked at how we implement an Interface. Java has a ready made built in interface called Comparable, which comes with a predefined method called ``compareTo(Class obj)`` which takes one argument, which is ``Object`` (instance of the same class) 
+The comparable method retuns an integer based on the following:
+- if this property value is greater than the argument Object, return 1
+- if this property value is less than the argument Object property, return -1
+- if equal return 0
+
+
+Any class that implements the comparable interface , objects created from that class can be sorted using Java's sorting algorithms.
+
+
+*The compareTo method required by the Comparable interface receives as its parameter the object to which the "this" object is compared. If the "this" object comes before the object received as a parameter in terms of sorting order, the method should return a negative number. If, on the other hand, the "this" object comes after the object received as a parameter, the method should return a positive number. Otherwise, 0 is returned. The sorting resulting from the compareTo method is called natural ordering.*
+
+
+```java
+public class Member implements Comparable<Member> {
+    private String name;
+    private int height;
+
+    public Member(String name, int height) {
+        this.name = name;
+        this.height = height;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    @Override
+    public String toString() {
+        return this.getName() + " (" + this.getHeight() + ")";
+    }
+
+    @Override
+    public int compareTo(Member member) {
+        if (this.height == member.getHeight()) {
+            return 0;
+        } else if (this.height > member.getHeight()) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+}
+```
+Since the Member class implements the Comparable interface, it is possible to sort the list by using the sorted method. In fact, objects of any class that implement the Comparable interface can be sorted using the sorted method. Be aware, however, that a stream does not sort the original list - only the items in the stream are sorted.
+
+If a programmer wants to organize the original list, the sort method from the Collections class should be used. This, of course, assumes that the objects on the list implement the Comparable interface.
+
+Sorting club members is straightforward now.
+```java
+List<Member> member = new ArrayList<>();
+member.add(new Member("mikael", 182));
+member.add(new Member("matti", 187));
+member.add(new Member("ada", 184));
+
+member.stream().forEach(m -> System.out.println(m));
+System.out.println();
+// sorting the stream that is to be printed using the sorted method
+member.stream().sorted().forEach(m -> System.out.println(m));
+member.stream().forEach(m -> System.out.println(m));
+// sorting a list with the sort-method of the Collections class
+Collections.sort(member);
+member.stream().forEach(m -> System.out.println(m));
+```
+
+When comparing Strings, the characters are converted into their ASCII equivalent and then the comparison is done. 
+So when using compareTo method (which i think the String class implements Comparable interface), it does the following: 
+- Convert the characters into their respective ASCII values
+- then compare
+```
+cat: c 99, a 97, t 116
+dog: d 100, o 111, g 103
+```
+It compares the first character and if a small value is found, the string comes before the other string. It does not compare the  other strings   
+If both characters are equal, it goes to the next, compares the ascii values and the string which has a small ascii value comes before  
+String with less length comes before the string with greater length in the below scenario:
+```
+carpet
+car
+```
+
+At anytime you compare Uppercase String to small clase string, the upper case string comes first, why? upper case letters ascii range is : 65->90, whil emall case letters range: 97->122
+
+
+**Implementing multiple interfaces** 
+A class can apply multiple interfaces which is achieved by seperating the individual Interface with a comma
+
+How to achieve sorting for a List.
+
+```java
+persons.stream().sorted((p1, p2) -> {
+    return p1.getBirthYear() - p2.getBirthYear();
+}).forEach(p -> System.out.println(p.getName()));
+
+System.out.println();
+
+persons.stream().forEach(p -> System.out.println(p.getName()));
+
+System.out.println();
+
+Collections.sort(persons, (p1, p2) -> p1.getBirthYear() - p2.getBirthYear());
+```
+
+
+**Comparing Method**   
+We can use the class Comparator to compare values/ an object properties multiple times. The Comparator class provides 2 methods , namely ``comparing()`` and ``comparingThen()`` to chain the comparison.
+
+Example:
+```java
+public class Film {
+    private String name;
+    private int releaseYear;
+
+    public Film(String name, int releaseYear) {
+        this.name = name;
+        this.releaseYear = releaseYear;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getReleaseYear() {
+        return this.releaseYear;
+    }
+
+    public String toString() {
+        return this.name + " (" + this.releaseYear + ")";
+    }
+}
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
+
+class Main {
+    public void main() {
+            List<Film> films = new ArrayList<>();
+            films.add(new Film("A", 2000));
+            films.add(new Film("B", 1999));
+            films.add(new Film("C", 2001));
+            films.add(new Film("D", 2005));
+
+            System.out.println("Before sorting");
+            for (Film f: films) {
+                    System.out.println(f);
+            }
+
+
+            Comparator<Film> comparator = Comparator
+                    .comparing(Film::getReleaseYear)
+                    .thenComparing(Film::getName);
+
+            Collections.sort(films, comparator);
+
+            System.out.println("After sorting");
+
+            for (Film f: films) {
+                    System.out.println(f);
+            }
+
+    }
+}
+```
+
+
+## Other usefull tricks  
+
+**Objectives**   
+- You understand the traditional for-loop.
+- You understand the issues related to string concatenation and know how to avoid them with the StringBuilder class.
+- You understand regular expressions and can write your own ones.
+- You understand enumerated (enum) types and know when to use them.
+- You know how to use an iterator to go through collections of data.
+
+
+**String Builder**  
+While concatenation can be used to join strings, this however requires memory allocation and though not noticable in small scale, for efficiency we can  use the ``StringBuilder`` class.
+
+*StringBuilder class provides a way to concatenate strings without the need to create them. A new StringBuilder object is created with a new StringBuilder() call, and content is added to the object using the overloaded append method, i.e., there are variations of it for different types of variables. Finally, the StringBuilder object provides a string using the toString method.*
+
+
+Example:
+```java
+import java.lang.StringBuilder;
+
+class Main {
+    public void main(String[] args) {
+
+        StringBuilder numbers = StringBuilder();
+        
+        for (int i = 0; i < 5; i++) {
+            numbers.append(i + "\n");
+        }
+        
+        System.out.println(numbers.toString());
+    }
+}
+
+
+```
+
+
+## Regular Expressions  
+A regular expression defines a set of strings in a compact form. Regular expressions are used, among other things, to verify the correctness of strings. We can assess whether or not a string is in the desired form by using a regular expression that defines the strings considered correct.
+
+
+
+```java
+String number = scanner.nextLine();
+if (number.matches("01[0-9]{7}")) // this is a regest  which specifies that the number must start with 01 , followed by   7 chharacters between the range 0  to 9
+```
+
+
+**Vertical Line**  
+```java
+if(number.matches("01|111|222")) // this is regex in which the number can either contain 01 or 111 or 222 to be true
+```
+
+
+**Paranthesis**  
+```java
+number.matches("0000(0|1)")
+
+result.matches("car(|s|)")
+```
+
+
+You can use more than one quantifier in a single regular expression. For example, the regular expression 5{3}(1|0)*5{3} defines strings that begin and end with three fives. An unlimited number of ones and zeros are allowed in between.
+Character Classes (Square Brackets)
+
+A character class can be used to specify a set of characters in a compact way. Characters are enclosed in square brackets, and a range is indicated with a dash. For example, ``[145]`` means (1|4|5) and ``[2-36-9]`` means (2|3|6|7|8|9). Similarly, the entry ``[a-c]*`` defines a regular expression that requires the string to contain only a, b and c.
+
+
+
+
+In the:
+- Regular Expression : ``123.matches("[0-9]+");``  [0-9] defines a range of digits and the plus sign state that it can either be one or more than one digits
+- Character Classes: 
+- [abc]: this means the string should either have  a, b, c
+- [^abc]: this** means the string should not  start with abc. The ``^`` means negation
+- [a-z]: any single letter from a to z
+- [A-Z]: any upper case letter from A to Z
+
+
+**Quantifiers: **
+``{ }, *, +, ?``
+Quantifiers defines the number of times a group or a character must appear.
+
+- ``{n} number of times``
+[0-9]{3} : 3 digits between the range 0 to 9 and  exactly be 3 digits. 
+123, 234, 567, 879, 009: true
+
+
+- {n,m}	Between n and m times.	
+[a-z]{2,4}	: any small  case character between a to z and the string can be of length 2 to 4 (characters)
+
+"abc", "aa", "abcd" : true
+"a", "abcde" : false 
+
+- {n,}	At least n times. 
+[A-Z]{2,} 	: any character from A to Z and must be of length 2 or more (characters)
+"HELLO", "HH", "AAA", "BBB", "BCBCBCB", 	:true
+"H"   : false
+
+- *	Zero or more times 
+[a-z]* : any character from letter a to z and zero or more times. this can be the same as [a-z]{0,}  
+
+
+**Enum classes**
+At anytime we know the possible values of a variable, we can use the class of type enum i.e. enumerated type to represent the values. Enumerated types are their own type in addition to being normal classes and interfaces. An enumerated type is defined by the keyword ``enum``. For example, the following ``Suit`` enum class defines four constant values: DIAMOND, SPADE, CLUB and HEART.
+```java
+public enum Suit {
+    DIAMONG, SPADE, CLUB, HEAERT
+}
+```
+
+the possible values for the enum class are declared in uppercase.
+
+**Comparison in Enum class**  
+For each possible value defined in the enum class: ``public enum ClassName {...values}``, is  assigned a unique value based on their index , which enable the below:
+```java
+class Main  {
+
+        public static void main(String[] args) {
+
+                User james = new User("James", Gender.MALE);
+                System.out.println(james);
+
+
+                // Get ordinal values
+                System.out.println("Gender.Male " + Gender.MALE.ordinal());
+
+                System.out.println("Gender.Female " + Gender.FEMALE.ordinal());
+
+
+                if (james.getGender() == Gender.MALE) {
+                        System.out.println("James gender is MALE");
+                }
+
+        }
+}
+
+public enum Gender {
+        MALE, FEMALE
+}
+
+
+public class User {
+
+        // class instances
+        private String name;
+        private Gender gender;
+
+        //  Contructor
+        public User(String username, Gender userGender){
+                this.name = username;
+                this.gender = userGender;
+        }
+
+
+        public Gender getGender(){
+                return this.gender;
+        }
+
+        @Override
+        public String toString() {
+                return this.name + " is " + this.gender;
+        }
+
+
+}
+```
+
+
+**Iterators**
+Any object or ArrayList that implements the collecion interface can be iterated over using ``Iterator``. 
+
+Example:
+```java
+Iterator<Card> iterator = this.cards.iterator();
+    while (iterator.hasNext()) {
+        System.out.println(iterator.nextb()); // prints the value at the cursor point and moves it forward
+    }
+```
+
+- iterator.remove(); // removes the value at the given index
+- iterator.next(); // gets the current value and moves the pointer to the next value in the collection
+
+
+
+
+
+# Part 11
+## Class Diagrams
+A class diagram is a visual representation of   a class, which helps in describing the class, it's variables, methods and their access modifiers. 
+
+In a class  diagram we have
+- Class Name
+- Access MOdifier: Attributes of the class: Data Type
+- Constructor of the Class and It's methods :  return type
+
+Example:
+```
+| Person |
+| ---- |
+| - Name : String |
+| - Age : int |
+| --------- |
+| + Person(initialName: string) |
+| + Print() : void |
+| + SetAge(int num) : int | 
+```
+
+**Variables of Type User Defined Class**  
+We use an open arrow pointer. 
+The example  below shows a class variable of type of another class. In this case the name of the variable is used as label to the arrow pointing to the given class.
+The asterisk/star is used to represent an Array. The class can have 0 or more of the type of variable
+
+When both classes have the same type of variable type(they know each other) , At the end of each line each has  an asterisk.
+*insert image*
+
+**Class  Inheritance**   
+For inheritance in class diagrams we use a hollow pointer arrow. 
+
+*insert image*
+
+
+**Describing Interfaces** 
+To define an interface in a class diagram we use dashed line with the arrow pointing towards the Interface the class implements
+
+*insert diagram*
+
+## Packages
+As a program get's larger we use Packages.  A package has multiple directories and can have other packages within. 
+- create a file : A.java set package name , click Ctrl + , (Quick Fix , move to recommended)
+
+
+When a Class method has no  defined access modifier(public, private , protected) it is assigned the  default ``package`` access modifier. This modifier enables the method to be accessed by other classes within the same package and sub-classes within the same package.
+
+
+**Classes that represent concepts of the problem domain**  
+The domain package is usually set as to hold concepts of a problem. 
+Take for example the library package, which has Program.java as the main file, can have a domain package which holds a class Book.
+The word domainis often used to refer to the storage space of the classes that represent the concepts of the problem domain.
+
+**Logic Package**
+The logic package is used to define the logic functionality of  the application.
+
+
+**User Interface**
+The ui package is used for interaction with the uer
+
+
+## Handling Exceptions
+we use the try {} catch {} to handle exceptions.
+```java
+try {
+} catch (Exception  e){
+}
+```
+
+Examples of errors:
+
+| Error | Description |
+| ---  | --- |
+| NumberFormatException | When using parseInt() to convert an  string to number if string is not convertable |
+| IllegalArgumentException | tells the user that the values given to a method or a constructor as parameters are wrong. |
+
+
+
+
+Example: 
+
+```java
+while (true) {
+    try {
+        System.out.println("Enter any number: ");
+        userInput = Integer.parseInt(scan.nextLine());
+        System.out.println("User input is a number");
+    } catch (Exception e) {
+        System.out.println("User input is not a number: ");
+    }
+}
+```
+
+
+**Exception & Resources**
+ Exception and Resources is an exception pattern used when accessing a system resources.
+```java
+import java.nio.file.Paths;
+
+try (Scanner scan =  new Scanner(Paths.get(filepath))) {
+    while (scan.hasNextLine()) {
+        lines.add(scan.nextLine());
+    }
+} catch (Exception err) {
+    System.out.println("Error while reading files:");
+    System.out.println(err.getMessage());
+}
+
+```
+ 
+**Throwing an  error outside a method handler**
+In this case, when a method throws an error outside we use:
+```java
+class MethodThrowError {
+    public static void main() {
+        // in the main method to handle the below error we can  either use:
+        // - try catch block or throw Exception which gets handled by the JVM (java virtual machine)
+        try {
+            List<String> myStrings = readLines("./data/files.txt");
+            System.out.println("This is myStrings");
+            System.out.println(myStrings);
+        } catch   (Exception err) {
+            System.out.println("Error occured: " + err.getMessage());
+        }
+    }
+    public static ArrayList<String> readLines (String filepath) throws  Exception {
+        ArrayList<String> myLines = new ArrayList<>();
+//        Scanner scan = new Scanner(Paths.get(filepath)));
+//        while (scan.hasNextLine()) {
+//            myLines.add(scan.nextLine());
+//        }
+        // use streams
+         Files.lines(Paths.get(filepath)).forEach(line -> myLines.add(line));
+
+        return myLines;
+    }
+}
+```
+
+
+**Throw Command**  
+We can use the throw command to throw exceptions.  For example a NumberFormatException can be done with command ``throw new NumberFormatException()``. 
+
+```java
+public Grade(int myGrade) {
+    if (myGrade < 0 || myGrade > 5) {
+        throw new IllegalArgumentException("Grade must be between  0 and 5");
+    }
+    this.grade = myGrade;
+}
+
+```
+
+**Interface with exceptions**
+If an interface declares a throws Exception attribute to a method, so that these methods might throw an exception, the class implementing this interface must also have this attribute. However, the class does not have to throw an error, as we can see below.
+
+The Exception class has some useful methods. For example printStackTrace() prints the stack trace, which shows how we ended up with an exception. Below is a stack trace printed by the printStackTrace() method. We read a stack trace from the bottom up.
+
+**Random Class**  
+When using the Random class to get an integer, we use the ``nextInt()`` which takes an argument, which is the upper bound. Note: the bound value must be a positive value.   
+take for example in the given case:
+Range : -30...30  
+```java
+import java.util.Random;
+Random random = new Random();
+public int read() {
+    return random.nextInt(61) - 30;
+}
+```
+
+Using random.nextInt(61), produces a range of values from 0...60. Subtracting 30 shifts this range to: -30 .. 30
+
+random.nextInt(60) , produces range of values form 0..59(inclusive).  To subtract -30 we get:
+
+0 - 30 = -30 : smallest value
+59 - 30  = -29 : largest value
+
+
+# Part 12
+## Type Parameters
+Type parameters enable programmers to develop a class that can accept any data type for it's class attributes(variables).
+This is achieved using generic type parameters, when defining your class.
+Example:
+```java
+public class Locker<T> {
+    // define class variables
+    private T someVariable;
+
+    public void setVarValue(T element) {
+        this.someVariable = element;
+    }
+
+    public T getValue() {
+        return this.someVariable;
+    }
+}
+
+class Program {
+    public static  void main(String args[]) {
+        Locker<String> name = new Locker<>();
+
+        name.setValue("James");
+
+        System.out.println("User name: " + name.getValue());
+    }
+}
+
+```
+The definition public class Locker<T> indicates that Locker is a generic class that requires a type parameter. The type parameter is specified when you declare a variable or create an instance of Locker, e.g., Locker<String> locker = new Locker<>();. After that declaration, the compiler enforces that all values stored in that object must be of the given type (or a subtype). The type parameter itself does not exist at runtime — it's erased.
+
+
+The above topic/concept is  used in Data structures such as ArrayList and HashMaps.
+e.g
+```java
+ArrayList<T> myStringList =  new ArrayList<>();
+HashMap<T, K> myFavPlanets =  new HashMap<>();
+
+```
+
+Other than the above interfaces such as List and Comparable use the above concept.
