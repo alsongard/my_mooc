@@ -10,31 +10,10 @@ Currently, it focuses on the **Java Programming** track, but will be extended wi
 ## 📖 Table of Contents
 
 - [Java Programming I](#java-programming-i)
+- [Java Programming II](#-java-programming-ii)
 
 ---
 
-### ☕ Java Programming I
-
-Solutions for the updated module on **Java Programming I** course (part of the MOOC.fi curriculum).  
-Each exercise is organized by part and chapter.
-
-### Getting Started
-
-To run any solution locally:
-
-1. Make sure you have [Java JDK](https://adoptium.net/) installed (version 11 or later).
-2. Clone this repository:  
-
-   ```bash
-   git clone https://github.com/alsongard/my-mooc.git
-   cd mooc-java-programming-1
-   ```
-   
-3. Navigate to the desired exercise folder and compile:  
-   ```bash
-   javac ExerciseName.java
-   java ExerciseName
-   ```
 
 
 
