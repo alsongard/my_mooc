@@ -2734,3 +2734,15 @@ HashMap<T, K> myFavPlanets =  new HashMap<>();
 ```
 
 Other than the above interfaces such as List and Comparable use the above concept.
+
+
+
+**Differences between ArrayList and Array Data Structures**
+
+| Operation | Array | ArrayList | 
+| ---- | ---- | ---- |
+| Read (Retrieve an element using index) Element | arr[i] | arraylist.get(i)  |
+| Write Element |arr[i] = value | arraylist.set(i, x); // i:index, x:value |
+| Append | not possible | arraylist.add(i) |
+| length | arr.length | arraylist.size() |
+
