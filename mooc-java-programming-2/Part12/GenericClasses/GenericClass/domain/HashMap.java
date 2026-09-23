@@ -14,7 +14,7 @@ public class HashMap<K,V> {
 
     public V getVal(K key) {
         // get hashCode % 2
-        int index = Math.abs(key.hashCode % this.hashList.size());
+        int index = Math.abs(key.hashCode() % this.hashList.length);
         List<Pair<K, V>> foundKeyVal = this.hashList[index];
 
         for (int i = 0; i < foundKeyVal.size(); i++) {
@@ -63,8 +63,8 @@ public class HashMap<K,V> {
     }
 
     public List<Pair<K,V>> getListBasedOnKey(K key) {
-        int hashValue = Math.abs(key.hashCode % this.hashList.size());// get hashCode % this.hashlist.length
-        if  (this.hashList.values(hashValue) == null) {
+        int hashValue = Math.abs(key.hashCode() % this.hashList.length);// get hashCode % this.hashlist.length
+        if  (this.hashList[hashValue] == null) {
             // add new empty array
             this.hashList[hashValue] = new List<Pair<K,V>>();
         }
@@ -85,9 +85,9 @@ public class HashMap<K,V> {
     // method increases the hashMapList;
     public void grow() {
         // create new array
-        List<Pair<K,V>>[] newHashList = new List[this.hashList.size() * 2];
+        List<Pair<K,V>>[] newHashList = new List[this.hashList.length * 2];
 
-        for (int i = 0;  i < this.hashList.size(); i++) { // used to loop in the InnerList on HashMapList,
+        for (int i = 0;  i < this.hashList.length; i++) { // used to loop in the InnerList on HashMapList,
             // innerList
            copy(newHashList , i);
         }
@@ -99,7 +99,7 @@ public class HashMap<K,V> {
     public void copy(List<Pair<K,V>>[] newArray, int givenIndex) {
         // generate new hashCode
         List<Pair<K,V>> foundListInGivenIndex = this.hashList[givenIndex];
-        for (int j = 0; j < foundListInGivenIndex.size(); i++) {
+        for (int j = 0; j < foundListInGivenIndex.size(); j++) {
             // get pair value for the item in index i
             Pair<K,V> keyPairValue = foundListInGivenIndex.value(j);
             // get new hashCode for adding to new Array
