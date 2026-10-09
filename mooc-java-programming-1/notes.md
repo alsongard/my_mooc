@@ -2573,7 +2573,7 @@ The logic package is used to define the logic functionality of  the application.
 
 **User Interface**
 The ui package is used for interaction with the uer
-
+<!--  -->
 
 ## Handling Exceptions
 we use the try {} catch {} to handle exceptions.
@@ -2746,3 +2746,139 @@ Other than the above interfaces such as List and Comparable use the above concep
 | Append | not possible | arraylist.add(i) |
 | length | arr.length | arraylist.size() |
 
+
+
+
+
+# Part 13 : Graphical User Interfaces
+
+**Sample 1**  
+The below is a simple graphical interface, with the following information:
+```java
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+class MyFirstApplication extends Application {
+
+    @Override()
+    public void start(Stage window) {
+        window.setTitle("My First Application");
+        window.show();
+    }
+
+    public static void main(String[] args) {
+        launch(MyFirstApplication.class);
+    }
+}
+```
+
+When the launch method is called, the method of the Application class creates a new object from the given class (here JavaFxApplication) and calls its init method. The init method is defined in the Application class and is used, for instance, to initialize objects of a program. After calling the init method, the program calls the start method, which gets a [Stage] (https://docs.oracle.com/javase/8/javafx/api/javafx/stage/Stage.html) object as its parameter, which describes the window. In the implementation of the start method above, the setTitle method sets the title of the Stage-type window object obtained as a parameter. The method show is then called, which leads to the window being displayed. The program then stays in a state where it continuously listens to events on user interface, such as closing the window that causes the application to shut down.
+
+
+Graphical user interfaces consist of three essential parts. The Stage object behaves as the program's window. A [Scene] (https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Scene.html) is set for a Stage object that represents a scene within the window. The Scene object, on the other hand, contains an object responsible for arranging the components belonging to the scene (such as FlowPane), which contains the actual user interface components.
+
+**Structure of a User Interface**  
+
+
+
+```java
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+
+
+class GetSceneApplication extends Application {
+	@Override
+	public void start(Stage window) {
+		Button myBtn = new Button("Click Me");
+		FlowPane componentGroup = new FlowPane();
+		componentGroup.getChildren().add(myBtn);
+		Scene scene = new Scene(componentGroup);
+		window.setScene(scene);
+		window.show();
+	}
+
+	public static void main(String[] args) {
+		launch(GetSceneApplication.class);
+	}
+
+}
+```
+
+
+- EventHandlers
+1. Button event handler
+```java
+Button clickedBtn = new Button();
+Label myLabel = new Label();
+clickedBtn.setOAction((event)->{
+    myLabel.setText("Loading..");
+})
+
+```
+2. TextField event handler
+```java
+TextField myTextInput = new TextField();
+myTextInput.textProperty().addListener((change, oldValue,newValue)->{
+    // access the new Value || oldValue
+})
+
+```
+
+**Application's launch parameters**  
+While in previous examples we have been using launch() method to execute/launch the application, this can be changed, such that the class is executed in another class
+
+Example:
+TextStatistics.java file
+```java
+class TextStatistics extends Application {
+
+}
+```
+
+Program.ava
+```java
+import javafx.application.Application;
+class Program {
+    public void main() {
+        Application.launch(TextStatistics.class);
+    }
+}
+
+```
+The lauch method can also receive run-time parameters. 
+The javafx application has a method ``getParameters()`` which returns a type object.
+This object has a method ``getNamed()`` which accesses a hash-table which contains key-value pairs. 
+
+```java
+class TextStatistics extends Application {
+    @Override
+    public void start(Stage window) {
+        Parameters params = getParameter();
+        String organization = params.getNamed().get("organization");
+        String course = params.getNamed().get("course");
+
+        window.setTitle(organization + ": " + course);
+        window.show()
+    }
+
+}
+
+class Main {
+    public static void main(String[] args) {
+        Application.launch(TextStatistics.class, "--organization=Once upon a time", "--course=Title");
+
+    }
+}
+```
+
+Parameters could be used to tell the program, for instance, the name of the file used to store and load persons, or even a web address.
+
+
+**Multiple views** 
+From previous examples we have been using a single scene/view. However we can use Events to change the scene used for an application. 
+
+The example below shows how to change the scene. 
+```
