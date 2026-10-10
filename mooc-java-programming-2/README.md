@@ -59,3 +59,17 @@ This section introduces the student to inheritance between classes
 - Classes and ArrayList
 - String , String split() methods
 - forEach method
+
+> Part 11 - FileWriter, PrintWriter, OutputStreamWriter and Writer class
+- Using FileWriter, PrintWriter, OutputStreamWriter and Writer for writing data to files
+- Understanding the inheritance / class relationship between the classes
+
+
+> Part 12 - Generic Classes, Type Parameters
+-  Reintroduction to Arrays data structure: ``int[] myNumArray =  new int[10];``, Using indexing to add  data to array data structure ``myNumArray[0] = 2``. 
+-  Type Parameters ``class Student <T>``, Generic List Class ``class List<T>``, Generic Pair class ``class Pair<K,V>``, Generic HashMap class ``class HashMap<K,V>`` 
+-  Random Java Built Library: Use the random class to generate random int and double numbers. ``Random random = new Random(); random.nextInt(61) - 30;``
+-  Multidimention Arrays: ``int[][] twoDimensionArray = new int[2][2]``, Siamese Method for creating square matrix, Data Structuers 
+
+
+> Part 13: Graphic User Interface
