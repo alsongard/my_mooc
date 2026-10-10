@@ -2746,3 +2746,47 @@ Other than the above interfaces such as List and Comparable use the above concep
 | Append | not possible | arraylist.add(i) |
 | length | arr.length | arraylist.size() |
 
+
+
+## Random Class
+The random class i a ready made built  in java tool for generating random numbers. To use it: 
+- create a random instance from the Random class.
+
+```java
+
+Random ladyLuck = new Random(10); // exclusive
+ladyLuck.nextInt(10);
+```
+
+
+**Diverse randomness:**
+to achieve diverse  randomness, we use  the followign:
+e.g Get temperature random values between -10 to  50
+```java
+new Random.nextInt(51) -10; // -10 .. 50
+```
+
+nextDouble() : used to create random double value between the range: 0.0 to 0.9
+
+## Multidimensional Arrays
+To create a multidimensional array:
+```java
+class Program {
+    public static void main (String[] args) {
+        int rowLenght=5;
+        int colLength=5;
+
+        int[][] twoDimensionalArray = new int[rowLenght][colLength];
+
+        for (int row = 0; row < twoDimensionalArray.length; row++) {
+            for (int col = 0; col < twoDimensionalArray[row].length; col++) {
+                System.out.println("Row [" + row + "]" + ", Column [" + col  + "]" +  " : " + twoDimensionalArray[row][col]);
+            }   
+        }
+    }
+}
+```
+
+from the above you can see the type set to int and the index are prefilled with the values: 0. 
+
+
